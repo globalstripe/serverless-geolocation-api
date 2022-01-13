@@ -12,6 +12,16 @@ With Serverless Framework v1.5 and later, a new project based on the project tem
 > npm install
 ```
 
+You will also need to download the MaxMind mmdb files and place them in the root of the serverless project
+
+GeoLite2-City.mmdb
+GeoLite2-Country.mmdb
+
+These are bundled up into the lambda function during deployment.
+
+You need to register for a free account to access the downloads now.
+Download the tar.gz files and unpack them.
+
 Cloned from here https://github.com/arjunkomath/serverless-geolocation-api
 
 Updated to nodejs14.x and also serverless-plugin-warmup
