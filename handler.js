@@ -24,15 +24,19 @@ module.exports.fetchLocationData = async event => {
 	let ip, cityData, countryData
 	ip = event.requestContext.identity.sourceIp
 
+	console.log("Source IP: " + ip)
+
 	if (event.headers && event.headers['X-Forwarded-For']) {
 		ip = event.headers['X-Forwarded-For'].split(',')[0]
 	}
 
 	try {
 		cityData = await cityLookup.get(ip)
+		console.log("DB City Data OK: " + cityData )
 		countryData = await countryLookup.get(ip)
+		console.log("DB Country Data OK: " + countryData)
 	} catch (e) {
-		console.log("Lookup failed!", e)
+		console.log("Maxmind DB Lookup failed!", e)
 		const response = {
 			statusCode: 500,
 			body: JSON.stringify({
@@ -52,5 +56,6 @@ module.exports.fetchLocationData = async event => {
 			country: countryData
 		})
 	}
+
 	return Promise.resolve(response)
 }

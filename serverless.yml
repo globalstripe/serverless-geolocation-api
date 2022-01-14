@@ -26,6 +26,7 @@ plugins:
 functions:
   fetchLocationData:
     handler: handler.fetchLocationData
+    timeout: 30 
     warmup: true
     events:
       - http:
