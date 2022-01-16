@@ -5,14 +5,14 @@
 const AWS = require('aws-sdk');
 const lambda = new AWS.Lambda({
   apiVersion: '2015-03-31',
-  region: 'us-east-1',
+  region: 'eu-west-1',
   httpOptions: {
     connectTimeout: 1000, // 1 second
   },
 });
 const functions = [
   {
-    "name": "geolocation-api-dev-fetchLocationData",
+    "name": "esc-geo-api-dev-fetchLocationData",
     "config": {
       "enabled": true,
       "payload": "{\"source\":\"serverless-plugin-warmup\"}",

@@ -1,24 +1,24 @@
-service: geolocation-api
-	
+service: esc-geo-api
+
 provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
-  memorySize: 256
+  memorySize: 512
   iamRoleStatements:
-    - Effect: 'Allow'
+    - Effect: "Allow"
       Action:
-        - 'lambda:InvokeFunction'
+        - "lambda:InvokeFunction"
       Resource:
-      - Fn::Join:
-        - ':'
-        - - arn:aws:lambda
-          - Ref: AWS::Region
-          - Ref: AWS::AccountId
-          - function:${self:service}-${opt:stage, self:provider.stage}-*
+        - Fn::Join:
+            - ":"
+            - - arn:aws:lambda
+              - Ref: AWS::Region
+              - Ref: AWS::AccountId
+              - function:${self:service}-${opt:stage, self:provider.stage}-*
 
   stage: dev
-  region: us-east-1
+  region: eu-west-1
 
 plugins:
   - serverless-plugin-warmup
@@ -26,7 +26,7 @@ plugins:
 functions:
   fetchLocationData:
     handler: handler.fetchLocationData
-    timeout: 30 
+    timeout: 10
     warmup: true
     events:
       - http:
@@ -38,15 +38,21 @@ custom:
   warmup:
     officeHoursWarmer:
       enabled: true
-      events:
-        - schedule: cron(0/5 8-17 ? * MON-FRI *)
-      concurrency: 10
+      #events:
+      #  - schedule: cron(0/5 8-17 ? * MON-FRI *)
+      concurrency: 2
     outOfOfficeHoursWarmer:
       enabled: true
       events:
-        - schedule: cron(0/5 0-7 ? * MON-FRI *)
-        - schedule: cron(0/5 18-23 ? * MON-FRI *)
-        - schedule: cron(0/5 * ? * SAT-SUN *)
+       # - schedule: cron(0/10 * * * ? *)
+       # - schedule: cron(0/10 * ? * MON-FRI *)
+       # - schedule: cron(0/10 * ? * SAT-SUN *)
+       # - schedule: cron(0/10 8-17 ? * MON-FRI *)
+       # - schedule: cron(0/10 18-23 ? * MON-FRI *)
+       # - schedule: cron(0/10 * ? * SAT-SUN *)
       concurrency: 1
     testWarmer:
       enabled: false
+
+resources:
+    Description: Serverless MaxMind GeoIP Stack

@@ -4,18 +4,22 @@ const bluebird = require("bluebird")
 const maxmind = require("maxmind")
 const openDb = bluebird.promisify(maxmind.open)
 
-let countryLookup = null
+let cityLookup,
+	countryLookup = null
 
 module.exports.fetchLocationData = async event => {
 
 	if (event.source === 'serverless-plugin-warmup') {
 		console.log('WarmUP - Lambda is warm!')
-		let fakecountryLookup = null
+		let fakecityLookup, fakecountryLookup = null
 		let fakeip = '8.8.8.8.'
-		let countryData 
+		let cityData, countryData
+		fakecityLookup = await openDb("./GeoLite2-City.mmdb")
 		fakecountryLookup = await openDb("./GeoLite2-Country.mmdb")
 
 		try {
+			cityData = await fakecityLookup.get(fakeip)
+			console.log("WarmUp DB City Data OK: " + cityData )
 			countryData = await fakecountryLookup.get(fakeip)
 			console.log("WarmUp DB Country Data OK: " + countryData)
 		} catch (e) {
@@ -32,11 +36,14 @@ module.exports.fetchLocationData = async event => {
 		
 	}
 	
+	if (!cityLookup) {
+		cityLookup = await openDb("./GeoLite2-City.mmdb")
+	}
 	if (!countryLookup) {
 		countryLookup = await openDb("./GeoLite2-Country.mmdb")
 	}
 
-	let ip, countryData
+	let ip, cityData, countryData
 	ip = event.requestContext.identity.sourceIp
 
 	console.log("Source IP: " + ip)
@@ -46,6 +53,8 @@ module.exports.fetchLocationData = async event => {
 	}
 
 	try {
+		cityData = await cityLookup.get(ip)
+		console.log("DB City Data OK: " + cityData )
 		countryData = await countryLookup.get(ip)
 		console.log("DB Country Data OK: " + countryData)
 	} catch (e) {
@@ -62,15 +71,10 @@ module.exports.fetchLocationData = async event => {
 
 	const response = {
 		statusCode: 200,
-		headers: {
-            "Access-Control-Allow-Headers" : "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,GET",
-			"Content-Type": "application/json"
-        },
 		body: JSON.stringify({
 			success: true,
 			ip: ip,
+			city: cityData,
 			country: countryData
 		})
 	}
