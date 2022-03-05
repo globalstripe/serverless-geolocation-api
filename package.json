@@ -4,7 +4,8 @@
   "description": "Geolocation API using Serverless Tech",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy:dev": "npx serverless --stage dev --profile eSCServerless"
   },
   "keywords": [
     "serverless",
@@ -15,9 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.5.1",
-    "maxmind": "^2.12.0"
-  },
-  "devDependencies": {
-    "serverless-plugin-warmup": "^6.2.0"
+    "maxmind": "^2.12.0",
+    "serverless": "^3.7.1",
+    "serverless-plugin-warmup": "^7.1.0"
   }
 }
