@@ -17,7 +17,7 @@ provider:
               - Ref: AWS::AccountId
               - function:${self:service}-${opt:stage, self:provider.stage}-*
 
-  stage: dev
+  stage: dev2
   region: eu-west-1
 
 plugins:

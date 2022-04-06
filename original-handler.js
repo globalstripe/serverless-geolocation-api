@@ -7,6 +7,8 @@ const openDb = bluebird.promisify(maxmind.open)
 let cityLookup,
 	countryLookup = null
 
+// Anything above module.exports only executes when the lambda first loads.
+
 module.exports.fetchLocationData = async event => {
 
 	if (event.source === 'serverless-plugin-warmup') {

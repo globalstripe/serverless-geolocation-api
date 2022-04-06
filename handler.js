@@ -11,7 +11,7 @@ module.exports.fetchLocationData = async event => {
 	if (event.source === 'serverless-plugin-warmup') {
 		console.log('WarmUP - Lambda is warm!')
 		let fakecountryLookup = null
-		let fakeip = '8.8.8.8.'
+		let fakeip = '8.8.8.8'
 		let countryData 
 		fakecountryLookup = await openDb("./GeoLite2-Country.mmdb")
 
