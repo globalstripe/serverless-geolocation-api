@@ -17,6 +17,10 @@ You will also need to download the MaxMind mmdb files and place them in the root
 GeoLite2-City.mmdb
 GeoLite2-Country.mmdb
 
+https://www.maxmind.com/en/accounts/535886/geoip/downloads
+
+(This code only required the GeoLite2-City.mmdb)
+
 These are bundled up into the lambda function during deployment.
 
 You need to register for a free account to access the downloads now.
