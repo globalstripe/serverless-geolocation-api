@@ -51,8 +51,7 @@ custom:
        # - schedule: cron(0/10 18-23 ? * MON-FRI *)
        # - schedule: cron(0/10 * ? * SAT-SUN *)
       concurrency: 1
-    testWarmer:
-      enabled: false
+
 
 resources:
     Description: Serverless MaxMind GeoIP Stack
