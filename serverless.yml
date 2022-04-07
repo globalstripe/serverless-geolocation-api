@@ -3,7 +3,7 @@ service: esc-geo-api
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: ${opt:stage, self.provider.stage, "dev"}
+  stage: ${opt:stage}
   lambdaHashingVersion: 20201221
   memorySize: 512
   iamRoleStatements:
